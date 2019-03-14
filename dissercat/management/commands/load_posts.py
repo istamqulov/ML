@@ -17,26 +17,29 @@ class Command(BaseCommand):
         self.stdout.write('Fetch catalogs')
         c = 0
         for post in Post.objects.filter(fetched=False):
-            c += 1
+            try:
+                c += 1
 
-            r = requests.get(urljoin(START_URL, post.url))
-            soup = BeautifulSoup(r.content, "html.parser")
-            toc = soup.select_one(".field-field-toc .field-items")
-            introduction = soup.select_one(".field-field-preface .field-items")
-            close = soup.select_one(".field-field-conclusion .field-items")
-            biblio = soup.select_one(".field-field-biblio .field-items")
+                r = requests.get(urljoin(START_URL, post.url))
+                soup = BeautifulSoup(r.content, "html.parser")
+                toc = soup.select_one(".field-field-toc .field-items")
+                introduction = soup.select_one(".field-field-preface .field-items")
+                close = soup.select_one(".field-field-conclusion .field-items")
+                biblio = soup.select_one(".field-field-biblio .field-items")
 
-            if toc:
-                post.head = toc.text
-            if introduction:
-                post.introduction = introduction.text
+                if toc:
+                    post.head = toc.text
+                if introduction:
+                    post.introduction = introduction.text
 
-            if close:
-                post.close = close.text
+                if close:
+                    post.close = close.text
 
-            if biblio:
-                post.biblio = biblio.text
+                if biblio:
+                    post.biblio = biblio.text
 
-            post.fetched = True
-            post.save()
-            print(post.name, "--fetched, ", c)
+                post.fetched = True
+                post.save()
+                print(post.name, "--fetched, ", c)
+            except:
+                pass

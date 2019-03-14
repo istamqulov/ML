@@ -27,16 +27,18 @@ class Command(BaseCommand):
 
             self.stdout.write('Getting child nodes for %s' % url)
             if url:
-
-                r = requests.get(urljoin(START_URL, url))
-                soup = BeautifulSoup(r.content, "html.parser")
-                catalogs = soup.select('.category h2 a')
-                for catalog in catalogs:
-                    Category(
-                        name=catalog.text,
-                        url=catalog.attrs.get('href'),
-                        parent=parent_catalog
-                    ).save()
+                try:
+                    r = requests.get(urljoin(START_URL, url))
+                    soup = BeautifulSoup(r.content, "html.parser")
+                    catalogs = soup.select('.category h2 a')
+                    for catalog in catalogs:
+                        Category(
+                            name=catalog.text,
+                            url=catalog.attrs.get('href'),
+                            parent=parent_catalog
+                        ).save()
+                except Exception:
+                    pass
 
     def handle(self, *args, **options):
         self.stdout.write('Fetch catalogs')

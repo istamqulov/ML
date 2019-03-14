@@ -44,30 +44,33 @@ class Command(BaseCommand):
                 pages.append(curl)
 
             for page in pages:
-                r = requests.get(page)
-                soup = BeautifulSoup(r.content, 'html.parser')
-                rows = soup.select('.category-products tbody tr')
+                try:
+                    r = requests.get(page)
+                    soup = BeautifulSoup(r.content, 'html.parser')
+                    rows = soup.select('.category-products tbody tr')
 
-                for row in rows:
+                    for row in rows:
 
-                    td1, td2, td3, *_ = row
-                    a = td1.select_one('a')
-                    title = a.text
-                    url = a.attrs.get('href')
-                    author = td2.text
+                        td1, td2, td3, *_ = row
+                        a = td1.select_one('a')
+                        title = a.text
+                        url = a.attrs.get('href')
+                        author = td2.text
 
-                    try:
-                        year = int(td3.text)
-                    except Exception:
-                        year = None
+                        try:
+                            year = int(td3.text)
+                        except Exception:
+                            year = None
 
-                    Post(
-                        name=title,
-                        category=category,
-                        url=url,
-                        author=author
-                    ).save()
-                    print(title, 'created')
+                        Post(
+                            name=title,
+                            category=category,
+                            url=url,
+                            author=author
+                        ).save()
+                        print(title, 'created')
+                except Exception:
+                    pass
 
             category.fetched = True
             category.save()
