@@ -5,7 +5,7 @@ from dissercat.models import Post, Category
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_filter = [('category', admin.RelatedOnlyFieldListFilter), ]
+    list_filter = [('category', admin.RelatedOnlyFieldListFilter), 'fetched']
     list_display = [
         'name',
         'author',

@@ -26,9 +26,11 @@ class Post(models.Model):
     introduction = models.TextField(default="")
     close = models.TextField(default="")
     content = models.TextField(default="")
+    biblio = models.TextField(default="")
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    fetched = models.BooleanField(default=False)
 
     
 
