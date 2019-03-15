@@ -43,3 +43,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Fetch catalogs')
         catalogs = self.get_catalogs()
+

@@ -15,10 +15,12 @@ class Command(BaseCommand):
     def get_catalogs(self):
         for category in Category.objects.all():
             try:
-                r = requests.get(category.url)
+                r = requests.get(urljoin(START_URL, category.url))
                 soup = BeautifulSoup(r.content, 'html.parser')
                 catalogs = soup.select('.category h2 a')
+                print('fetch', category.url)
                 for catalog in catalogs:
+
 
                     Category.objects.get_or_create(
                         name=catalog.text,
