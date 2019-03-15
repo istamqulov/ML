@@ -20,13 +20,12 @@ class Command(BaseCommand):
                 catalogs = soup.select('.category h2 a')
                 print('fetch', category.url)
                 for catalog in catalogs:
-
-
-                    Category.objects.get_or_create(
-                        name=catalog.text,
-                        url=catalog.attrs.get('href'),
-                        parent=category
-                    ).save()
+                    if not Category.objects.filter(url=catalog.attrs.get('href')).exists():
+                        Category(
+                            name=catalog.text,
+                            url=catalog.attrs.get('href'),
+                            parent=category
+                        ).save()
 
             except Exception:
                 pass
@@ -34,3 +33,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Fetch catalogs')
         catalogs = self.get_catalogs()
+
