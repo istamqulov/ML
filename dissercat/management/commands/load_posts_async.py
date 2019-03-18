@@ -19,8 +19,9 @@ headers = {
 }
 
 
-def fetch(post):
+def fetch():
     try:
+        post = Post.objects.filter(fetched=False).first()
 
         r = requests.get(urljoin(START_URL, post.url))
         soup = BeautifulSoup(r.content, "html.parser")
@@ -62,22 +63,20 @@ class Command(BaseCommand):
             [
                 self.send_request(
                     loop,
-                    post,
                     total
                 )
-                for ind, post in enumerate(posts)
+                for i in range(total)
             ]
         )
         loop.run_until_complete(tasks)
 
-    async def send_request(self, loop,  post,  total):
+    async def send_request(self, loop,  total):
 
         async with sema:
 
             status = await loop.run_in_executor(
                 None,
                 fetch,
-                post,
             )
             self.counter += 1
-            self.stdout.write("%s / %s %s %s" %(self.counter, total, post.url, status))
+            self.stdout.write("%s / %s %s" %(self.counter, total, status))
