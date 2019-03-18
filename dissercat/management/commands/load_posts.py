@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Fetch catalogs')
         c = 0
-        for post in Post.objects.filter(fetched=False):
+        for post in Post.objects.filter(fetched=False).iterator():
             try:
                 c += 1
 
