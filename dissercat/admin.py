@@ -9,18 +9,21 @@ class PostAdmin(admin.ModelAdmin):
     list_display = [
         'name',
         'author',
-        'year',
-        'created',
+        "category",
         'updated',
     ]
 
-    search_fields = ['name', 'author']
+    search_fields = ['name', 'author', "category__name"]
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
 
-    list_filter = [('parent', admin.RelatedOnlyFieldListFilter),]
+    search_fields = ['name',]
+
+    list_filter = [
+        ('parent', admin.RelatedOnlyFieldListFilter),
+    ]
 
     list_display = [
         'name',
