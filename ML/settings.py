@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admirarchy',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,10 +77,20 @@ WSGI_APPLICATION = 'ML.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME':'/home/hasan/DATA/DEV/db.sqlite3',
+    },
+    'mysql': {
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+        'NAME': 'ml',  # Or path to database file if using sqlite3.
+        # 'NAME': 'rtv2',                      # Or path to database file if using sqlite3.
+        'USER': 'root',  # Not used with sqlite3.
+        'PASSWORD': 'hasan999',  # Not used with sqlite3.
+        # 'CONN_MAX_AGE': 600,
+    },
 }
 
 

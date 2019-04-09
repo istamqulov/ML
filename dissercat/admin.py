@@ -1,5 +1,7 @@
+from admirarchy.utils import AdjacencyList
 from django.contrib import admin
-
+from django.utils.html import format_html
+from admirarchy.toolbox import HierarchicalModelAdmin
 from dissercat.models import Post, Category
 
 
@@ -17,17 +19,24 @@ class PostAdmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(HierarchicalModelAdmin):
+    hierarchy = AdjacencyList('parent')
 
-    search_fields = ['name',]
-
-    list_filter = [
-        ('parent', admin.RelatedOnlyFieldListFilter),
-    ]
+    list_filter = [('parent', admin.RelatedOnlyFieldListFilter),]
 
     list_display = [
         'name',
         'parent',
         'url',
+        'get_posts'
     ]
+
+    def get_posts(self, obj):
+        return format_html(
+            """<a href='/admin/dissercat/post/?category_id={}'>{}</a>""",
+            str(obj.id),
+            str(obj.post_set.count())
+        )
+
+
 
