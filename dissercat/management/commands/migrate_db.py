@@ -27,25 +27,23 @@ class Command(BaseCommand):
             posts = []
             for post in Post.objects.filter(category_id=category.id).iterator():
                 cn += 1
+                print("move post ", post.name, cn, "/", ptc)
+                Post(
+                    name=post.name,
+                    category_id=post.category_id,
+                    author=post.author,
+                    url=post.url,
+                    year=post.year,
+                    head=post.head,
+                    introduction=post.introduction,
+                    close=post.close,
+                    content=post.content,
+                    biblio=post.biblio,
+                    created=post.created,
+                    updated=post.updated,
+                    fetched=post.fetched,
+                )
+                posts.append(post)
 
-                if not Post.objects.using('mysql').filter(url=post.url).exists():
-                    print("move post ", post.name, cn, "/", ptc)
-
-                    Post(
-                        name=post.name,
-                        category_id=post.category_id,
-                        author=post.author,
-                        url=post.url,
-                        year=post.year,
-                        head=post.head,
-                        introduction=post.introduction,
-                        close=post.close,
-                        content=post.content,
-                        biblio=post.biblio,
-                        created=post.created,
-                        updated=post.updated,
-                        fetched=post.fetched,
-                    )
-                    posts.append(post)
-
-            Post.objects.using('mysql').bulk_create(posts)
+            Post.objects.using('mysql').bulk_create(posts, batch_size=200)
+            del posts

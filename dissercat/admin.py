@@ -1,8 +1,16 @@
 from admirarchy.utils import AdjacencyList
 from django.contrib import admin
+from django.core import serializers
+from django.http import HttpResponse
 from django.utils.html import format_html
 from admirarchy.toolbox import HierarchicalModelAdmin
 from dissercat.models import Post, Category
+
+
+def export_as_json(modeladmin, request, queryset):
+    response = HttpResponse(content_type="application/json")
+    serializers.serialize("json", queryset, stream=response)
+    return response
 
 
 @admin.register(Post)
@@ -11,11 +19,14 @@ class PostAdmin(admin.ModelAdmin):
     list_display = [
         'name',
         'author',
-        "category",
+        'year',
+        'created',
         'updated',
     ]
 
-    search_fields = ['name', 'author', "category__name"]
+    search_fields = ['name', 'author']
+
+    actions = [export_as_json]
 
 
 @admin.register(Category)

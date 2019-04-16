@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'ML.wsgi.application'
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
-         'NAME':'/home/hasan/DATA/DEV/db.sqlite3',
+         'NAME':'/home/hasan/DATA/db.sqlite3',
     },
     'mysql': {
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -89,7 +89,7 @@ DATABASES = {
         # 'NAME': 'rtv2',                      # Or path to database file if using sqlite3.
         'USER': 'root',  # Not used with sqlite3.
         'PASSWORD': 'hasan999',  # Not used with sqlite3.
-        # 'CONN_MAX_AGE': 600,
+        'CONN_MAX_AGE': 36000
     },
 }
 
