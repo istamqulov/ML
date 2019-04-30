@@ -8,8 +8,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print("starting migrating")
-        categories = Category.objects.all().iterator(1000)
-        ptc = Post.objects.count()
+        categories = Category.objects.filter(parent__in=Category.objects.filter(parent=None)[:6])
+        ptc = Post.objects.filter(category__in=categories).count()
         cn = 0
 
         # for category in categories:

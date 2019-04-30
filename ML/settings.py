@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'ML.wsgi.application'
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
-         'NAME':'/home/hasan/DATA/db.sqlite3',
+         'NAME': '/run/media/hasan/63b7ed0a-2b3a-4e3b-bbb9-c4734cb4cfbd/db.sqlite3',
     },
     'mysql': {
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
