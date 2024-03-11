@@ -1,0 +1,1 @@
+This project was part of my undergraduate degree and was created to extract data from the Dissercat website for further analysis and processing for machine learning. The project was written 6 years ago
